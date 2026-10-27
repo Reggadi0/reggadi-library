@@ -11,7 +11,7 @@ const booksDatabase = [
         pages: 220,
         cover: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&q=80",
         description: "رواية مميزة للكاتب محمد رگادي تتناول مشاعر القدر والمصادفة والروابط العميقة بين القلوب والإرادة.",
-        pdfUrl: "books/sample_book.pdf"
+        pdfUrl: "books/my_book.pdf"
     },
     {
         id: 102,
