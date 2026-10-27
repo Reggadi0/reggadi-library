@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مكتبة محمد رگادي الرقمية</title>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #d4af37; /* لون ذهبي فاخر */
+            --accent-hover: #e6c547;
+            --border: #334155;
+            --sidebar-width: 280px;
+            --header-height: 70px;
+            --transition: all 0.3s ease;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent: #b8860b;
+            --accent-hover: #996515;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+            transition: var(--transition);
+        }
+
+        /* --- Sidebar --- */
+        aside {
+            width: var(--sidebar-width);
+            background-color: var(--bg-secondary);
+            border-left: 1px solid var(--border);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+            transition: var(--transition);
+        }
+
+        .sidebar-header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.3rem;
+            color: var(--accent);
+            margin-top: 10px;
+        }
+
+        .sidebar-header p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .nav-links {
+            list-style: none;
+            margin-top: 20px;
+            flex-grow: 1;
+        }
+
+        .nav-links li {
+            margin-bottom: 10px;
+        }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            color: var(--text-main);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background-color: rgba(212, 175, 55, 0.1);
+            color: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .social-links a {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            color: var(--accent);
+        }
+
+        /* --- Main Content Area --- */
+        .main-content {
+            margin-right: var(--sidebar-width);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Top Header */
+        header {
+            height: var(--header-height);
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        .search-box {
+            position: relative;
+            width: 350px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 40px 10px 15px;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            color: var(--text-main);
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent);
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-toggle, .mobile-menu-btn {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+        }
+
+        /* Container & Hero */
+        .container {
+            padding: 30px;
+            flex-grow: 1;
+        }
+
+        .hero-banner {
+            background: linear-gradient(135deg, rgba(212,175,55,0.15) 0%, rgba(15,23,42,0.8) 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-banner h1 {
+            font-size: 2.2rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .hero-banner p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+        }
+
+        /* Books Grid */
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .book-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .book-cover {
+            height: 280px;
+            position: relative;
+            overflow: hidden;
+            background-color: var(--border);
+        }
+
+        .book-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .book-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--accent);
+            color: #000;
+            padding: 3px 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 4px;
+        }
+
+        .book-info {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .book-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--text-main);
+        }
+
+        .book-author {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        .book-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* --- PDF Reader Modal (Ktobati Style) --- */
+        .reader-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+        }
+
+        .reader-header {
+            height: 60px;
+            background-color: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .reader-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .close-reader {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .reader-body {
+            flex-grow: 1;
+            width: 100%;
+            height: calc(100vh - 60px);
+        }
+
+        .reader-body iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            aside {
+                right: -280px;
+            }
+            aside.active {
+                right: 0;
+            }
+            .main-content {
+                margin-right: 0;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .search-box {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+
+    <!-- Sidebar -->
+    <aside id="sidebar">
+        <div>
+            <div class="sidebar-header">
+                <i class="fa-solid fa-book-open-reader fa-2x" style="color: var(--accent);"></i>
+                <h2>محمد رگادي</h2>
+                <p>المكتبة الرقمية الرسمية</p>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" class="active" onclick="filterBooks('all', event)"><i class="fa-solid fa-house"></i> الرئيسية</a></li>
+                <li><a href="#" onclick="filterBooks('reggadi', event)"><i class="fa-solid fa-feather"></i> مؤلفاتي الخاصة</a></li>
+                <li><a href="#" onclick="filterBooks('history', event)"><i class="fa-solid fa-landmark"></i> تاريخ وفلسفة</a></li>
+                <li><a href="#" onclick="filterBooks('literature', event)"><i class="fa-solid fa-book-bookmark"></i> أدب وروايات</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <div class="social-links">
+                <!-- ضع روابط حساباتك هنا -->
+                <a href="https://github.com" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="https://t.me/yourusername" target="_blank" title="Telegram"><i class="fa-brands fa-telegram"></i></a>
+                <a href="https://twitter.com/yourusername" target="_blank" title="Twitter / X"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="mailto:your-email@example.com" title="Email"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <header>
+            <button class="mobile-menu-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+            
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="ابحث عن كتاب أو مؤلف..." onkeyup="searchBooks()">
+                <i class="fa-solid fa-search"></i>
+            </div>
+
+            <div class="header-controls">
+                <button class="theme-toggle" onclick="toggleTheme()"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="hero-banner">
+                <h1>عالم الفكر والأدب بين يديك</h1>
+                <p>مرحباً بك في المكتبة الرقمية الخاصة بالكاتب والروائي محمد رگادي. استكشف المؤلفات الحصرية، الإصدارات الجديدة، وكتب المعرفة العامة.</p>
+            </div>
+
+            <h2 class="section-title"><i class="fa-solid fa-fire" style="color: var(--accent);"></i> أحدث الإصدارات والمكتبة</h2>
+            
+            <div class="books-grid" id="booksGrid">
+                <!-- يتم تعبئة الكتب برمجياً عبر الجافاسكريبت -->
+            </div>
+        </div>
+    </div>
+
+    <!-- PDF Reader Modal -->
+    <div class="reader-modal" id="pdfReaderModal">
+        <div class="reader-header">
+            <span class="reader-title" id="readerBookTitle">عنوان الكتاب</span>
+            <button class="close-reader" onclick="closeReader()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="reader-body">
+            <iframe id="pdfIframe" src=""></iframe>
+        </div>
+    </div>
+
+    <script>
+        // قاعدة بيانات الكتب (يمكنك إضافة أو تعديل كتبك هنا بسهولة)
+        const booksDatabase = [
+            {
+                id: 1,
+                title: "مملكة الأطياف",
+                author: "محمد رگادي",
+                category: "reggadi",
+                badge: "إصدار حصري",
+                cover: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&q=80",
+                description: "رواية فانتازيا وأدب ريادة عوالم الخيال والذاكرة.",
+                pdfUrl: "books/sample_book.pdf"
+            },
+            {
+                id: 2,
+                title: "قدري",
+                author: "محمد رگادي",
+                category: "reggadi",
+                badge: "رواية",
+                cover: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&q=80",
+                description: "حيث تقاطع الخطوط وتلتقي القلوب ليس صدفة بل قدراً.",
+                pdfUrl: "books/sample_book.pdf"
+            },
+            {
+                id: 3,
+                title: "معتركة - أرض نسيان",
+                author: "محمد رگادي",
+                category: "reggadi",
+                badge: "الأكثر مبيعا",
+                cover: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=500&q=80",
+                description: "رحلة عميقة في سراديب النسيان والذكريات المفقودة.",
+                pdfUrl: "books/sample_book.pdf"
+            },
+            {
+                id: 4,
+                title: "مقدمة ابن خلدون",
+                author: "ابن خلدون",
+                category: "history",
+                badge: "تاريخ",
+                cover: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=500&q=80",
+                description: "ديوان المبتدأ والخبر في أيام العرب والعجم والبربر.",
+                pdfUrl: "books/sample_book.pdf"
+            }
+        ];
+
+        // عرض الكتب عند تحميل الصفحة
+        window.addEventListener('DOMContentLoaded', () => {
+            displayBooks(booksDatabase);
+        });
+
+        function displayBooks(books) {
+            const grid = document.getElementById('booksGrid');
+            grid.innerHTML = '';
+
+            if (books.length === 0) {
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">عذراً، لم يتم العثور على كتب مطابقة لبحثك.</p>`;
+                return;
+            }
+
+            books.forEach(book => {
+                const card = document.createElement('div');
+                card.className = 'book-card';
+                card.innerHTML = `
+                    <div class="book-cover">
+                        <span class="book-badge">${book.badge}</span>
+                        <img src="${book.cover}" alt="${book.title}" loading="lazy">
+                    </div>
+                    <div class="book-info">
+                        <h3 class="book-title">${book.title}</h3>
+                        <p class="book-author">${book.author}</p>
+                        <div class="book-actions">
+                            <button class="btn btn-primary" onclick="openReader('${book.pdfUrl}', '${book.title}')">
+                                <i class="fa-solid fa-book-open"></i> قراءة
+                            </button>
+                            <a href="${book.pdfUrl}" download class="btn btn-outline" title="تحميل">
+                                <i class="fa-solid fa-download"></i>
+                            </a>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // محرك البحث الفوري
+        function searchBooks() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const filtered = booksDatabase.filter(book => 
+                book.title.toLowerCase().includes(query) || 
+                book.author.toLowerCase().includes(query) ||
+                book.description.toLowerCase().includes(query)
+            );
+            displayBooks(filtered);
+        }
+
+        // تصفية حسب التصنيف من القائمة الجانبية
+        function filterBooks(category, event) {
+            event.preventDefault();
+            document.querySelectorAll('.nav-links a').forEach(el => el.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            if (category === 'all') {
+                displayBooks(booksDatabase);
+            } else {
+                const filtered = booksDatabase.filter(book => book.category === category);
+                displayBooks(filtered);
+            }
+
+            // إغلاق القائمة في الجوال عند الاختيار
+            if (window.innerWidth <= 992) {
+                toggleSidebar();
+            }
+        }
+
+        // فتح القارئ المدمج داخل الموقع (مثل كتوباتي)
+        function openReader(pdfUrl, title) {
+            const modal = document.getElementById('pdfReaderModal');
+            const iframe = document.getElementById('pdfIframe');
+            const titleEl = document.getElementById('readerBookTitle');
+
+            titleEl.textContent = title;
+            iframe.src = pdfUrl;
+            modal.style.display = 'flex';
+        }
+
+        // إغلاق القارئ
+        function closeReader() {
+            const modal = document.getElementById('pdfReaderModal');
+            const iframe = document.getElementById('pdfIframe');
+            iframe.src = '';
+            modal.style.display = 'none';
+        }
+
+        // تبديل القائمة الجانبية في الهواتف
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        // تبديل الوضع الليلي / النهاري
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('themeIcon');
+            
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.setAttribute('data-theme', 'light');
+                icon.className = 'fa-solid fa-sun';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                icon.className = 'fa-solid fa-moon';
+            }
+        }
+    </script>
+</body>
+</html>
